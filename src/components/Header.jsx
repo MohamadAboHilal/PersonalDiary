@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import FormPopup from "./FormPopup";
 
 function Header() {
+  const [isFormPopupVisible, setFormPopupVisible] = useState(false);
+
+  const toggleFormPopup = () => {
+    setFormPopupVisible(!isFormPopupVisible);
+  };
+
   return (
-    <header class="flex justify-between items-center px-8 py-4 bg-gray-900 w-full">
-      <h1 class="text-5xl font-great-vibes text-white">Personal Diary</h1>
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300 transition duration-300">
+    <header className="flex justify-between items-center px-8 py-4 bg-gray-900 w-full">
+      <h1 className="text-5xl font-great-vibes text-white">Personal Diary</h1>
+      <button
+        className="bg-[#CECECE] text-[#1E1E1E] font-bold py-2 px-6 rounded-full hover:bg-[#cbcbcb] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onClick={toggleFormPopup}
+      >
         Add Entry
       </button>
+      {isFormPopupVisible && <FormPopup onClose={toggleFormPopup} />}
     </header>
   );
 }
