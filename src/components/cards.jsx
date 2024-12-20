@@ -1,36 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const Card = ({ data }) => {
-  return (
-    <div className="max-w-md mx-auto bg-neutral-700 rounded-xl shadow-md overflow-hidden md:max-w-2xl font-great-vibes">
-      <div className="md:flex">
-        <div className="md:flex-shrink-0">
-          <img
-            className="h-full w-full object-cover md:w-48"
-            src={data.url}
-            alt={data.title}
-          />
-        </div>
-        <div className="p-8">
-          <h2 className="block mt-1 text-4xl leading-tight font-medium text-blue-300">
-            {data.title}
-            <div className="mt-0.5 text-xl text-blue-300">{data.date}</div>
-          </h2>
-          {/* <p className="mt-2 text-2xl text-slate-300">{data.content}</p> */}
-        </div>
-      </div>
-    </div>
-  );
-};
+function EntryList() {
+  const [entries, setEntries] = useState([]);
 
-export default function App() {
-  const data = {
-    content:
-      "Today's hike was incredible. The trail started gently, but as I climbed, the forest gave way to rocky paths and snowy patches. At the summit, the view was breathtaking—valleys below, rivers like silver threads, and a vast, peaceful sky above.\n\nSitting there, I felt a deep sense of accomplishment and connection with nature. The silence was calming, a reminder of how small yet significant we are in the grand scheme. Coming down, I carried that peace with me, already dreaming of the next climb.",
-    date: "18-12-2024",
-    title: "Test",
-    url: "https://media.wired.com/photos/5954853a8e8cc150fa8ec286/191:100/w_1280,c_limit/plate_14.jpg",
+  useEffect(() => {
+    const savedEntries = JSON.parse(localStorage.getItem("entries")) || [];
+    setEntries(savedEntries);
+  }, []);
+
+  const handleViewClick = (url) => {
+    window.open(url, "_blank");
   };
 
-  return <Card data={data} />;
+  return (
+    <div className="bg-slate-900 rounded-xl shadow-md font-great-vibes">
+      <h1 className="text-3xl mb-6 text-center">
+        Diary speaks where words fail
+      </h1>
+      {entries.length === 0 ? (
+        <p className="text-center text-gray-500">No entries found.</p>
+      ) : (
+        <div className="flex flex-wrap gap-10">
+          {entries.map((entry, index) => (
+            <div
+              key={index}
+              className="items-center text-white p-2 rounded-lg shadow-md size-80 "
+            >
+              <div className="flex size-80 gap-2">
+                <div>
+                  <img
+                    className="max-w-40 object-cover justify-left"
+                    src={entry.url}
+                    alt={entry.title}
+                  />
+                </div>
+                <div className="p-1">
+                  <h2 className="block mt-1 text-2xl leading-tight text-blue-300 justify-around">
+                    {entry.title}
+                  </h2>
+                  <p className="mt-0.5 text-l text-blue-300">{entry.date}</p>
+                  <div className="justify-items-end">
+                    <button className=" bg-blue-500 text-white p-8 px-4 py-2 rounded-full text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      View
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
+
+export default EntryList;
