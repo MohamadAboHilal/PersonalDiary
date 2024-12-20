@@ -1,59 +1,51 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-function EntryList() {
-  const [entries, setEntries] = useState([]);
-
-  useEffect(() => {
-    const savedEntries = JSON.parse(localStorage.getItem("entries")) || [];
-    setEntries(savedEntries);
-  }, []);
-
-  const handleViewClick = (entry) => {
-    setSelectedEntry(entry);
-  };
-
-  const closeModal = () => {
-    setSelectedEntry(null);
+function EntryList({ entries }) {
+  const handleViewClick = (url) => {
+    window.open(url, "_blank");
   };
 
   return (
-    <div className="bg-slate-900 rounded-xl shadow-md font-great-vibes">
-      <h1 className="text-3xl mb-6 text-center">
-        Diary speaks where words fail
+    <div className="min-h-screen bg-gray-900 flex flex-col items-center py-10">
+      <h1 className="text-4xl text-white mb-8 font-great-vibes">
+        Diary Speaks Where Words Fail
       </h1>
       {entries.length === 0 ? (
         <p className="text-center text-gray-500">No entries found.</p>
       ) : (
-        <div className="flex flex-wrap gap-10">
+        <div className="flex flex-wrap gap-6 justify-center px-4 w-full">
           {entries.map((entry, index) => (
             <div
               key={index}
-              className="items-center text-white p-2 rounded-lg shadow-md size-80 "
+              className="flex flex-row bg-gray-800 rounded-lg shadow-lg overflow-hidden max-w-3xl min-w-[320px]"
             >
-              <div className="flex size-80 gap-2">
-                <div>
-                  <img
-                    className="max-w-40 object-cover justify-left"
-                    src={entry.url}
-                    alt={entry.title}
-                  />
-                </div>
-                <div className="p-1">
-                  <h2 className="block mt-1 text-2xl leading-tight text-blue-300 justify-around">
+              {/* Image Section */}
+              <div className="w-[180px] h-[200px]">
+                <img
+                  src={entry.url}
+                  alt={entry.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Content Section */}
+              <div className="w-1/2 flex flex-col justify-between p-4 relative">
+                {/* Title and Date */}
+                <div className="absolute top-4 right-4 text-right">
+                  <h2 className="text-white text-2xl font-great-vibes">
                     {entry.title}
                   </h2>
-                  <p className="mt-0.5 text-l text-blue-300">{entry.date}</p>
-                  <div className="justify-items-end">
-                    <button
-                      onClick={() => handleViewClick(entry)}
-                      className=" bg-blue-500 text-white p-8 px-4 py-2
-                      rounded-full text-sm hover:bg-blue-600 focus:outline-none
-                      focus:ring-2 focus:ring-blue-500"
-                    >
-                      {" "}
-                      View
-                    </button>
-                  </div>
+                  <p className="text-gray-400 text-sm mt-1">{entry.date}</p>
+                </div>
+
+                {/* View Button */}
+                <div className="absolute bottom-4 right-4 z-10">
+                  <button
+                    // onClick=""
+                    className="bg-gray-700 text-white py-2 px-6 rounded-full hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  >
+                    View
+                  </button>
                 </div>
               </div>
             </div>
