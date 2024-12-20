@@ -1,18 +1,29 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import FormPopup from "./components/FormPopup";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Card from "./components/cards";
+import EntryList from "./components/cards";
+
 function App() {
-  // const [count, setCount] = useState(0);
+  const [entries, setEntries] = useState([]);
+
+  useEffect(() => {
+    const savedEntries = JSON.parse(localStorage.getItem("entries")) || [];
+    savedEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
+    setEntries(savedEntries);
+  }, []);
+
+  const addEntry = (newEntry) => {
+    const updatedEntries = [newEntry, ...entries];
+    updatedEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
+    setEntries(updatedEntries);
+    localStorage.setItem("entries", JSON.stringify(updatedEntries));
+  };
 
   return (
     <>
-      <Header />
-      <Card />
+      <Header addEntry={addEntry} />
+      <EntryList entries={entries} />
       <Footer />
     </>
   );

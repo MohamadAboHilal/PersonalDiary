@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FormPopup from "./FormPopup";
 
-function Header() {
+function Header({ addEntry }) {
   const [isFormPopupVisible, setFormPopupVisible] = useState(false);
 
   const toggleFormPopup = () => {
@@ -17,7 +17,9 @@ function Header() {
       >
         Add Entry
       </button>
-      {isFormPopupVisible && <FormPopup onClose={toggleFormPopup} />}
+      {isFormPopupVisible && (
+        <FormPopup onClose={toggleFormPopup} addEntry={addEntry} />
+      )}
     </header>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function FormPopup({ onClose }) {
+function FormPopup({ onClose, addEntry }) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [url, setUrl] = useState("");
@@ -9,9 +9,7 @@ function FormPopup({ onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newEntry = { title, date, url, content };
-    const existingEntries = JSON.parse(localStorage.getItem("entries")) || [];
-    existingEntries.push(newEntry);
-    localStorage.setItem("entries", JSON.stringify(existingEntries));
+    addEntry(newEntry);
     setTitle("");
     setDate("");
     setUrl("");
@@ -33,7 +31,7 @@ function FormPopup({ onClose }) {
   }, [onClose]);
 
   return (
-    <div className="form-popup-backdrop fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="form-popup-backdrop fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-gray-800 text-white rounded-lg shadow-lg p-8 w-full max-w-xl">
         <h1 className="text-2xl font-bold mb-6 text-center">Add Diary Entry</h1>
         <form
