@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import Modal from "./Modals"; // Import Modal component
 
 function EntryList({ entries }) {
-  const handleViewClick = (url) => {
-    window.open(url, "_blank");
+  const [selectedEntry, setSelectedEntry] = useState(null); // State to manage the selected entry
+
+  const handleViewClick = (entry) => {
+    setSelectedEntry(entry); // Set the selected entry when the View button is clicked
+  };
+
+  const closeModal = () => {
+    setSelectedEntry(null); // Close the modal when clicked
   };
 
   return (
@@ -29,9 +36,9 @@ function EntryList({ entries }) {
               </div>
 
               {/* Content Section */}
-              <div className="w-1/2 flex flex-col justify-between p-4 relative">
+              <div className="flex flex-col flex-1 p-4 justify-between">
                 {/* Title and Date */}
-                <div className="absolute top-4 right-4 text-right">
+                <div>
                   <h2 className="text-white text-2xl font-great-vibes">
                     {entry.title}
                   </h2>
@@ -39,19 +46,20 @@ function EntryList({ entries }) {
                 </div>
 
                 {/* View Button */}
-                <div className="absolute bottom-4 right-4 z-10">
-                  <button
-                    // onClick=""
-                    className="bg-gray-700 text-white py-2 px-6 rounded-full hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                  >
-                    View
-                  </button>
-                </div>
+                <button
+                  onClick={() => handleViewClick(entry)} // Call handleViewClick with the entry
+                  className="bg-gray-700 text-white py-2 px-6 rounded-full hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 mt-4"
+                >
+                  View
+                </button>
               </div>
             </div>
           ))}
         </div>
       )}
+
+      {/* Show Modal if a selected entry exists */}
+      {selectedEntry && <Modal entry={selectedEntry} onClose={closeModal} />}
     </div>
   );
 }
