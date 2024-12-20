@@ -22,7 +22,7 @@ function App() {
 
   return (
     <>
-      <Header addEntry={addEntry} />
+      <Header addEntry={addEntry} entries={entries} />
       <EntryList entries={entries} />
       <Footer />
     </>

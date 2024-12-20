@@ -41,7 +41,7 @@ function EntryList({ entries }) {
                 {/* View Button */}
                 <div className="absolute bottom-4 right-4 z-10">
                   <button
-                    // onClick=""
+                    // onClick={() => handleViewClick(entry.url)}
                     className="bg-gray-700 text-white py-2 px-6 rounded-full hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
                   >
                     View

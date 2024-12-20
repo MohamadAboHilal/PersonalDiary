@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
 
-function FormPopup({ onClose, addEntry }) {
+function FormPopup({ onClose, addEntry, entries }) {
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [url, setUrl] = useState("");
   const [content, setContent] = useState("");
+  const [hasEntryForToday, setHasEntryForToday] = useState(false);
+
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    const entryExists = entries.some((entry) => entry.date === today);
+    setHasEntryForToday(entryExists);
+  }, [entries]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newEntry = { title, date, url, content };
     addEntry(newEntry);
     setTitle("");
-    setDate("");
+    setDate(new Date().toISOString().split("T")[0]);
     setUrl("");
     setContent("");
     onClose();
@@ -33,7 +40,15 @@ function FormPopup({ onClose, addEntry }) {
   return (
     <div className="form-popup-backdrop fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-gray-800 text-white rounded-lg shadow-lg p-8 w-full max-w-xl">
-        <h1 className="text-2xl font-bold mb-6 text-center">Add Diary Entry</h1>
+        {hasEntryForToday && (
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-6">Entry Already Exists</h1>
+            <p className="text-gray-300">
+              You have already added an entry for today. You can add an entry
+              for another day.
+            </p>
+          </div>
+        )}
         <form
           onSubmit={handleSubmit}
           className="space-y-4 text-start font-medium text-gray-300"
