@@ -8,8 +8,12 @@ function EntryList() {
     setEntries(savedEntries);
   }, []);
 
-  const handleViewClick = (url) => {
-    window.open(url, "_blank");
+  const handleViewClick = (entry) => {
+    setSelectedEntry(entry);
+  };
+
+  const closeModal = () => {
+    setSelectedEntry(null);
   };
 
   return (
@@ -40,7 +44,13 @@ function EntryList() {
                   </h2>
                   <p className="mt-0.5 text-l text-blue-300">{entry.date}</p>
                   <div className="justify-items-end">
-                    <button className=" bg-blue-500 text-white p-8 px-4 py-2 rounded-full text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button
+                      onClick={() => handleViewClick(entry)}
+                      className=" bg-blue-500 text-white p-8 px-4 py-2
+                      rounded-full text-sm hover:bg-blue-600 focus:outline-none
+                      focus:ring-2 focus:ring-blue-500"
+                    >
+                      {" "}
                       View
                     </button>
                   </div>
